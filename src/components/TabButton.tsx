@@ -1,3 +1,5 @@
+import React from 'react'
+
 type Props = {
   label: string,
   selected: boolean,
@@ -7,6 +9,7 @@ type Props = {
 const TabButton = ({label, selected, onClick}: Props) => {
   return (
     <button
+      role="tab"
       onClick={onClick}
       aria-selected={selected}
       className="uppercase ff-sans-cond text-accent letter-spacing-2"

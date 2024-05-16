@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Header from '../components/Header'
 import data from '../data.json';
 import Crew from '../components/Crew';
