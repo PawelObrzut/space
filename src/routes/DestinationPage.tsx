@@ -19,15 +19,15 @@ const DestinationPage = () => {
   type TabName = typeof tabs[number];
 
   interface Destination {
-    name: string;
-    description: string;
-    distance: string;
-    travel: string;
+    name: string,
+    description: string,
+    distance: string,
+    travel: string
   }
   
   interface ImageSources {
-    webp: string;
-    png: string;
+    webp: string,
+    png: string
   }
   const [tab, setTab] = useState<TabName>('Moon');
   const [currentDestination, setCurrentDestination] = useState<Destination | null>(null);
