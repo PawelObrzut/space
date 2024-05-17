@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Header from '../components/Header'
 import data from '../data.json';
 import Crew from '../components/Crew';
 import DotButton from '../components/DotButton';
 import Picture from '../components/Picture';
+
 import Douglas from '@crew/image-douglas-hurley.png'
 import Douglas_webp from '@crew/image-douglas-hurley.webp'
 import Mark from '@crew/image-mark-shuttleworth.png'
@@ -12,10 +13,52 @@ import Victor from '@crew/image-victor-glover.png'
 import Victor_webp from '@crew/image-victor-glover.webp'
 import Anousheh from '@crew/image-anousheh-ansari.png'
 import Anousheh_webp from '@crew/image-anousheh-ansari.webp'
+import { handleKeyDown } from '../utility/handleKeyDown';
+
 
 const CrewPage = () => {
-  const [tab, setTab] = useState('Douglas Hurley')
+  type TabName = typeof tabs[number];
 
+  interface ImageSources {
+    webp: string,
+    png: string,
+  }
+
+  interface Crew {
+    name: string,
+    role: string,
+    bio: string
+  }
+
+  const tabs = useMemo(() => ['Douglas Hurley', 'Mark Shuttleworth', 'Victor Glover', 'Anousheh Ansari'], []);
+  const [tab, setTab] = useState<TabName>('Douglas Hurley')
+  const [currentCrewMember, setCurrentCrewMember] = useState<Crew | null>(null)
+  
+  const imageMap: Record<TabName, ImageSources> = {
+    'Douglas Hurley': { webp: Douglas_webp, png: Douglas },
+    'Mark Shuttleworth': { webp: Mark_webp, png: Mark },
+    'Victor Glover': { webp: Victor_webp, png: Victor },
+    'Anousheh Ansari': { webp: Anousheh_webp, png: Anousheh }
+  };
+
+  useEffect(() => {
+    const onKeyDown = (e: { keyCode: number }) => {
+      handleKeyDown(e, tab, tabs, setTab);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [tab, tabs])
+
+  useEffect(() => {
+    const member = data.crew.find(crew => crew.name === tab);
+    if (member) {
+      setCurrentCrewMember(member);
+    }
+  }, [tab]);
+
+  
   return (
     <div className="crew">
       <Header />
@@ -23,10 +66,14 @@ const CrewPage = () => {
         <h1 className="numbered-title"><span aria-hidden="true">02</span> Meet your crew</h1>
 
         <div className="dot-indicators flex">
-          <DotButton label={'The commander'} selected={tab === 'Douglas Hurley'} onClick={() => setTab('Douglas Hurley')} />
-          <DotButton label={'The mission specialist'} selected={tab === 'Mark Shuttleworth'} onClick={() => setTab('Mark Shuttleworth')} />
-          <DotButton label={'The pilot'} selected={tab === 'Victor Glover'} onClick={() => setTab('Victor Glover')} />
-          <DotButton label={'The crew engineer'} selected={tab === 'Anousheh Ansari'} onClick={() => setTab('Anousheh Ansari')} />
+          {tabs.map(tabName => (
+            <DotButton 
+              key={tabName}
+              label={tabName}
+              selected={tab === tabName}
+              onClick={() => setTab(tabName)}
+            />
+          ))}
         </div>
 
         {
@@ -42,11 +89,13 @@ const CrewPage = () => {
             ))
         }
 
-        {tab === 'Douglas Hurley' && <Picture webpSrc={Douglas_webp} pngSrc={Douglas} alt="Douglas Hurley" />}
-        {tab === 'Mark Shuttleworth' && <Picture webpSrc={Mark_webp} pngSrc={Mark} alt="Mark Shuttleworth" />}
-        {tab === 'Victor Glover' && <Picture webpSrc={Victor_webp} pngSrc={Victor} alt="Victor Glover" />}
-        {tab === 'Anousheh Ansari' && <Picture webpSrc={Anousheh_webp} pngSrc={Anousheh} alt="Anousheh Ansari" />}
-
+        {currentCrewMember && (
+          <Picture 
+            webpSrc={imageMap[tab].webp}
+            pngSrc={imageMap[tab].png}
+            alt={currentCrewMember.name}
+          />
+        )}
       </main>
     </div>
   )
