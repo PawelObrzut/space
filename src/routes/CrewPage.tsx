@@ -4,14 +4,14 @@ import data from '../data.json';
 import Crew from '../components/Crew';
 import DotButton from '../components/DotButton';
 import Picture from '../components/Picture';
-import Douglas from './../assets/crew/image-douglas-hurley.png'
-import Douglas_webp from './../assets/crew/image-douglas-hurley.webp'
-import Mark from './../assets/crew/image-mark-shuttleworth.png'
-import Mark_webp from './../assets/crew/image-mark-shuttleworth.webp'
-import Victor from './../assets/crew/image-victor-glover.png'
-import Victor_webp from './../assets/crew/image-victor-glover.webp'
-import Anousheh from './../assets/crew/image-anousheh-ansari.png'
-import Anousheh_webp from './../assets/crew/image-anousheh-ansari.webp'
+import Douglas from '@crew/image-douglas-hurley.png'
+import Douglas_webp from '@crew/image-douglas-hurley.webp'
+import Mark from '@crew/image-mark-shuttleworth.png'
+import Mark_webp from '@crew/image-mark-shuttleworth.webp'
+import Victor from '@crew/image-victor-glover.png'
+import Victor_webp from '@crew/image-victor-glover.webp'
+import Anousheh from '@crew/image-anousheh-ansari.png'
+import Anousheh_webp from '@crew/image-anousheh-ansari.webp'
 
 const CrewPage = () => {
   const [tab, setTab] = useState('Douglas Hurley')

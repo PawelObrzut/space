@@ -3,22 +3,46 @@ import Header from '../components/Header';
 import Destination from '../components/Destination';
 import data from '../data.json';
 import TabButton from '../components/TabButton';
+
+import Moon from '@destination/image-moon.png';
+import Moon_webp from '@destination/image-moon.webp';
+import Mars from '@destination/image-mars.png';
+import Mars_webp from '@destination/image-mars.webp';
+import Europa from '@destination/image-europa.png';
+import Europa_webp from '@destination/image-europa.webp';
+import Titan from '@destination/image-titan.png';
+import Titan_webp from '@destination/image-titan.webp';
 import Picture from '../components/Picture';
-import Moon from './../assets/destination/image-moon.png';
-import Moon_webp from './../assets/destination/image-moon.webp';
-import Mars from './../assets/destination/image-mars.png';
-import Mars_webp from './../assets/destination/image-mars.webp';
-import Europa from './../assets/destination/image-europa.png';
-import Europa_webp from './../assets/destination/image-europa.webp';
-import Titan from './../assets/destination/image-titan.png';
-import Titan_webp from './../assets/destination/image-titan.webp';
+
+interface Destination {
+  name: string;
+  description: string;
+  distance: string;
+  travel: string;
+}
+
+interface ImageSources {
+  webp: string;
+  png: string;
+}
+
+const tabs = ['Moon', 'Mars', 'Europa', 'Titan'];
+type TabName = typeof tabs[number];
+
+const imageMap: Record<TabName, ImageSources> = {
+  Moon: { webp: Moon_webp, png: Moon },
+  Mars: { webp: Mars_webp, png: Mars },
+  Europa: { webp: Europa_webp, png: Europa },
+  Titan: { webp: Titan_webp, png: Titan }
+};
 
 const DestinationPage = () => {
-  const [tab, setTab] = useState('Moon');
+  const [tab, setTab] = useState<TabName>('Moon');
+  const [currentDestination, setCurrentDestination] = useState<Destination | null>(null);
   const tabs = useMemo(() => ['Moon', 'Mars', 'Europa', 'Titan'], []);
-  
+
   useEffect(() => {
-    const handleKeyDown = (e: { keyCode: number; }) => {
+    const handleKeyDown = (e: { keyCode: number }) => {
       const keydownLeft = 37;
       const keydownRight = 39;
 
@@ -41,6 +65,12 @@ const DestinationPage = () => {
     };
   }, [tab, tabs]);
 
+  useEffect(() => {
+    const current = data.destinations.find(destination => destination.name === tab);
+    if (current) {
+      setCurrentDestination(current);
+    }
+  }, [tab]);
 
   return (
     <div className="destination">
@@ -50,13 +80,16 @@ const DestinationPage = () => {
           <span aria-hidden="true">01</span> Pick your destination
         </h1>
 
-        {tab === 'Moon' && <Picture webpSrc={Moon_webp} pngSrc={Moon} alt="the Moon" />}
-        {tab === 'Mars' && <Picture webpSrc={Mars_webp} pngSrc={Mars} alt="Mars" />}
-        {tab === 'Europa' && <Picture webpSrc={Europa_webp} pngSrc={Europa} alt="Europa" />}
-        {tab === 'Titan' && <Picture webpSrc={Titan_webp} pngSrc={Titan} alt="Titan" />}
+        {currentDestination && (
+          <Picture
+            webpSrc={imageMap[tab].webp}
+            pngSrc={imageMap[tab].png}
+            alt={currentDestination.name}
+          />
+        )}
 
         <div className="tab-list underline-indicators flex">
-          {tabs.map((tabName) => (
+          {tabs.map(tabName => (
             <TabButton
               key={tabName}
               label={tabName}
@@ -66,17 +99,15 @@ const DestinationPage = () => {
           ))}
         </div>
 
-        {data.destinations
-          .filter((destination) => destination.name === tab)
-          .map((destination) => (
-            <Destination
-              key={destination.name}
-              name={destination.name}
-              description={destination.description}
-              distance={destination.distance}
-              travel={destination.travel}
-            />
-          ))}
+        {currentDestination && (
+          <Destination
+            key={currentDestination.name}
+            name={currentDestination.name}
+            description={currentDestination.description}
+            distance={currentDestination.distance}
+            travel={currentDestination.travel}
+          />
+        )}
       </main>
     </div>
   );
