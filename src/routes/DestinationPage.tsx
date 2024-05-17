@@ -13,55 +13,41 @@ import Europa_webp from '@destination/image-europa.webp';
 import Titan from '@destination/image-titan.png';
 import Titan_webp from '@destination/image-titan.webp';
 import Picture from '../components/Picture';
-
-interface Destination {
-  name: string;
-  description: string;
-  distance: string;
-  travel: string;
-}
-
-interface ImageSources {
-  webp: string;
-  png: string;
-}
-
-const tabs = ['Moon', 'Mars', 'Europa', 'Titan'];
-type TabName = typeof tabs[number];
-
-const imageMap: Record<TabName, ImageSources> = {
-  Moon: { webp: Moon_webp, png: Moon },
-  Mars: { webp: Mars_webp, png: Mars },
-  Europa: { webp: Europa_webp, png: Europa },
-  Titan: { webp: Titan_webp, png: Titan }
-};
+import { handleKeyDown } from '../utility/handleKeyDown';
 
 const DestinationPage = () => {
+  type TabName = typeof tabs[number];
+
+  interface Destination {
+    name: string;
+    description: string;
+    distance: string;
+    travel: string;
+  }
+  
+  interface ImageSources {
+    webp: string;
+    png: string;
+  }
   const [tab, setTab] = useState<TabName>('Moon');
   const [currentDestination, setCurrentDestination] = useState<Destination | null>(null);
   const tabs = useMemo(() => ['Moon', 'Mars', 'Europa', 'Titan'], []);
+  
+  const imageMap: Record<TabName, ImageSources> = {
+    Moon: { webp: Moon_webp, png: Moon },
+    Mars: { webp: Mars_webp, png: Mars },
+    Europa: { webp: Europa_webp, png: Europa },
+    Titan: { webp: Titan_webp, png: Titan }
+  };
 
   useEffect(() => {
-    const handleKeyDown = (e: { keyCode: number }) => {
-      const keydownLeft = 37;
-      const keydownRight = 39;
-
-      if (e.keyCode === keydownRight) {
-        const currentIndex = tabs.indexOf(tab);
-        const nextIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
-        setTab(tabs[nextIndex]);
-      }
-
-      if (e.keyCode === keydownLeft) {
-        const currentIndex = tabs.indexOf(tab);
-        const nextIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
-        setTab(tabs[nextIndex]);
-      }
+    const onKeyDown = (e: { keyCode: number }) => {
+      handleKeyDown(e, tab, tabs, setTab);
     };
 
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', onKeyDown);
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keydown', onKeyDown);
     };
   }, [tab, tabs]);
 
