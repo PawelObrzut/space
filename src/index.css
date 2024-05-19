@@ -426,6 +426,24 @@ select {
   background-color: hsl( var(--clr-white) / 1); 
 }
 
+.number-indicators > * {
+  cursor: pointer;
+  width: 2.5em;
+  aspect-ratio: 1;
+  border: solid 1px hsl( var(--clr-white) / .5);
+  border-radius: 50%;
+}
+
+.number-indicators > [aria-selected="true"] {
+  background-color: hsl( var(--clr-white));
+  color: hsl(var(--clr-dark))
+}
+
+.number-indicators > *:hover,
+.number-indicators > *:focus {
+  border-color: hsl( var(--clr-white));
+}
+
 
 /* ----------------------------- */
 /* Page specific background      */
