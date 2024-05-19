@@ -7,6 +7,7 @@ import {
 import HomePage from './routes/HomePage';
 import DestinationPage from './routes/DestinationPage';
 import CrewPage from './routes/CrewPage';
+import TechnologyPage from './routes/TechnologyPage';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Route path='/' element={<HomePage />}></Route>
           <Route path='/destination' element={<DestinationPage />}></Route>
           <Route path='/crew' element={<CrewPage />}></Route>
+          <Route path='/technology' element={<TechnologyPage />}></Route>
         </Routes>
       </Router>
     </>

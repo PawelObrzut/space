@@ -63,7 +63,7 @@ const DestinationPage = () => {
       <Header />
       <main id="main" className="grid-container grid-container--destination flow">
         <h1 className="numbered-title">
-          <span aria-hidden="true">01</span> Pick your destination
+          <span aria-hidden="true">01</span>Pick your destination
         </h1>
 
         {currentDestination && (

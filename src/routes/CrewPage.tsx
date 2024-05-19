@@ -63,7 +63,7 @@ const CrewPage = () => {
     <div className="crew">
       <Header />
       <main className="grid-container grid-container--crew flow">
-        <h1 className="numbered-title"><span aria-hidden="true">02</span> Meet your crew</h1>
+        <h1 className="numbered-title"><span aria-hidden="true">02</span>Meet your crew</h1>
 
         <div className="dot-indicators flex">
           {tabs.map(tabName => (
