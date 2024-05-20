@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Header from '../components/Header'
 import data from '../data.json'
-import Picture from '../components/Picture'
 
 import LounchVehiclePortrait from './../assets/technology/image-launch-vehicle-portrait.jpg'
 import LounchVehicleLandscape from './../assets/technology/image-launch-vehicle-landscape.jpg'
@@ -60,7 +59,15 @@ const TechnologyPage = () => {
       <main className='grid-container grid-container--technology flow'>
         <h1 className="numbered-title"><span aria-hidden="true">03</span>Space lounch 101</h1>
 
-        <img src={LounchVehiclePortrait} alt="Lounching the rocket" />
+        {
+          currentTechnology && (
+            <picture>
+              <source media="(width < 52em)" srcSet={imageMap[tab].landscape} />
+              <source media="(width > 52em)" srcSet={imageMap[tab].portrait} />
+              <img src={imageMap[tab].portrait} alt={tab} />
+            </picture>
+          )
+        }
 
         <div className="number-indicators flex">
           {tabs.map(tabName => (
