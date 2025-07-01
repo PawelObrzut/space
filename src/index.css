@@ -653,6 +653,9 @@ select {
 }
 
 @media (min-width: 52em) {
+  .numbered-title {
+    margin-left: 0rem;
+  }
   .grid-container {
       text-align: left;
       column-gap: var(--container-gap, 2rem);
@@ -698,8 +701,7 @@ select {
       max-width: 90%;
   }
 
-  .grid-container--crew > picture,
-  .grid-container--technology > picture  {
+  .grid-container--crew > picture {
     align-self: end;
   }
 
@@ -710,12 +712,20 @@ select {
   .grid-container--technology > .number-indicators {
     flex-direction: column;
     --gap: 2rem;
+    justify-self: start;
+  }
+
+  .grid-container--technology > picture {
+    width: 100%;
+    justify-self: end;
   }
 
   .grid-container--technology {
-    grid-template-areas: 
-      '. title . .'
-      '. tabs content image';
+    grid-template-columns: minmax(1rem, 1fr) auto minmax(0, 30rem) auto;
+    grid-template-areas:
+      ". title title ."
+      ". tabs content image";
+    column-gap: clamp(3rem, 5vw, 5rem);
   }
 }
 
