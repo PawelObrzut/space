@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Header from '../components/Header'
 import data from '../data.json'
 
@@ -20,14 +20,12 @@ const TechnologyPage = () => {
     landscape: string,
   }
 
-  interface Technology {
-    name: string,
-    description: string
-  }
-
   const tabs = useMemo(() => ['Launch vehicle', 'Spaceport', 'Space capsule'], []);
   const [tab, setTab] = useState<TabName>('Launch vehicle')
-  const [currentTechnology, setTechnology] = useState<Technology | null>(null)
+
+  const currentTechnology = useMemo(() => {
+    return data.technology.find(technology => technology.name === tab) || null
+  }, [tab])
 
   const imageMap: Record<TabName, ImageSources> = {
     'Launch vehicle': { portrait: LounchVehiclePortrait, landscape: LounchVehicleLandscape },
@@ -44,13 +42,6 @@ const TechnologyPage = () => {
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [tab, tabs])
-
-  useEffect(() => {
-    const technology = data.technology.find(technology => technology.name === tab);
-    if (technology) {
-      setTechnology(technology);
-    }
-  }, [tab]);
 
   return (
     <div className="technology">

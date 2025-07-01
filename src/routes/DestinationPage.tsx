@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Header from '../components/Header';
 import Destination from '../components/Destination';
 import data from '../data.json';
@@ -17,20 +17,13 @@ import { handleKeyDown } from '../utility/handleKeyDown';
 
 const DestinationPage = () => {
   type TabName = typeof tabs[number];
-
-  interface Destination {
-    name: string,
-    description: string,
-    distance: string,
-    travel: string
-  }
   
   interface ImageSources {
     webp: string,
     png: string
   }
+
   const [tab, setTab] = useState<TabName>('Moon');
-  const [currentDestination, setCurrentDestination] = useState<Destination | null>(null);
   const tabs = useMemo(() => ['Moon', 'Mars', 'Europa', 'Titan'], []);
   
   const imageMap: Record<TabName, ImageSources> = {
@@ -39,6 +32,10 @@ const DestinationPage = () => {
     Europa: { webp: Europa_webp, png: Europa },
     Titan: { webp: Titan_webp, png: Titan }
   };
+
+  const currentDestination = useMemo(() => {
+    return data.destinations.find(destination => destination.name === tab) || null;
+  }, [tab]);
 
   useEffect(() => {
     const onKeyDown = (e: { keyCode: number }) => {
@@ -50,13 +47,6 @@ const DestinationPage = () => {
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [tab, tabs]);
-
-  useEffect(() => {
-    const current = data.destinations.find(destination => destination.name === tab);
-    if (current) {
-      setCurrentDestination(current);
-    }
-  }, [tab]);
 
   return (
     <div className="destination">

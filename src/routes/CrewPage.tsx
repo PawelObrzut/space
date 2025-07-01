@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Header from '../components/Header'
 import data from '../data.json';
 import Crew from '../components/Crew';
@@ -24,15 +24,12 @@ const CrewPage = () => {
     png: string,
   }
 
-  interface Crew {
-    name: string,
-    role: string,
-    bio: string
-  }
-
   const tabs = useMemo(() => ['Douglas Hurley', 'Mark Shuttleworth', 'Victor Glover', 'Anousheh Ansari'], []);
   const [tab, setTab] = useState<TabName>('Douglas Hurley')
-  const [currentCrewMember, setCurrentCrewMember] = useState<Crew | null>(null)
+
+  const currentCrewMember = useMemo(() => {
+    return data.crew.find(crew => crew.name === tab) || null
+  }, [tab])
   
   const imageMap: Record<TabName, ImageSources> = {
     'Douglas Hurley': { webp: Douglas_webp, png: Douglas },
@@ -50,14 +47,6 @@ const CrewPage = () => {
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [tab, tabs])
-
-  useEffect(() => {
-    const member = data.crew.find(crew => crew.name === tab);
-    if (member) {
-      setCurrentCrewMember(member);
-    }
-  }, [tab]);
-
   
   return (
     <div className="crew">
