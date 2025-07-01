@@ -12,7 +12,6 @@ import Technology from '../components/Technology'
 import NumberButton from '../components/NumberButton'
 import { handleKeyDown } from '../utility/handleKeyDown'
 
-
 const TechnologyPage = () => {
   type TabName = typeof tabs[number];
 
@@ -32,8 +31,8 @@ const TechnologyPage = () => {
 
   const imageMap: Record<TabName, ImageSources> = {
     'Launch vehicle': { portrait: LounchVehiclePortrait, landscape: LounchVehicleLandscape },
-    'Spaceport': { portrait: SpaceCapsulePortrait, landscape: SpaceCapsuleLandscape },
-    'Space capsule': { portrait: SpacePortPortrait, landscape: SpacePortLandscape },
+    'Spaceport': { portrait: SpacePortPortrait, landscape: SpacePortLandscape },
+    'Space capsule': { portrait: SpaceCapsulePortrait, landscape: SpaceCapsuleLandscape },
   };
 
   useEffect(() => {
@@ -57,7 +56,7 @@ const TechnologyPage = () => {
     <div className="technology">
       <Header />
       <main className='grid-container grid-container--technology flow'>
-        <h1 className="numbered-title"><span aria-hidden="true">03</span>Space lounch 101</h1>
+        <h1 className="numbered-title"><span aria-hidden="true">03</span>Space launch 101</h1>
 
         {
           currentTechnology && (
